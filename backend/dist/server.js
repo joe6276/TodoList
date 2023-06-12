@@ -28,8 +28,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importStar(require("express"));
 const todoRoutes_1 = __importDefault(require("./Routes/todoRoutes"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use((0, express_1.json)());
+app.use((0, cors_1.default)());
 app.use('/todo', todoRoutes_1.default);
 app.listen(4000, () => {
     console.log("Server Running...");
