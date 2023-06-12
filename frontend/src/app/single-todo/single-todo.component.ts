@@ -9,5 +9,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./single-todo.component.css']
 })
 export class SingleTodoComponent {
-
+  date= new Date()
+  next='https://cdn-icons-png.flaticon.com/512/2989/2989988.png'
 }
