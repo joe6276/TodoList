@@ -20,3 +20,10 @@ export interface AddTodo{
 export interface ExtendedAddInterface extends Request{
 body:AddTodo
 }
+
+export interface ExtendedUpdateInterface  extends Request{
+    body:AddTodo
+    params:{id:string}
+    }
+    
+

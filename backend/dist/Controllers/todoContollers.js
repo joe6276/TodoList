@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addTodo = exports.getaTodo = exports.getAllTodos = void 0;
+exports.deleteTodo = exports.updateTodo = exports.addTodo = exports.getaTodo = exports.getAllTodos = void 0;
 const DatabaseHelper_1 = require("../DatabaseHelper");
 const uuid_1 = require("uuid");
 const getAllTodos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -20,7 +20,10 @@ exports.getAllTodos = getAllTodos;
 const getaTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let id = req.params.id;
     let todo = yield (yield DatabaseHelper_1.DatabaseHelper.exec('getTodo', { id })).recordset;
-    res.status(200).json(todo[0]);
+    if (todo.length) {
+        return res.status(200).json(todo[0]);
+    }
+    return res.status(404).json({ message: 'Todo Not Found' });
 });
 exports.getaTodo = getaTodo;
 const addTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -30,3 +33,24 @@ const addTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(200).json({ message: "Todo added successfully..." });
 });
 exports.addTodo = addTodo;
+const updateTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let { title, description, endDate } = req.body;
+    const id = req.params.id;
+    let todo = yield (yield DatabaseHelper_1.DatabaseHelper.exec('getTodo', { id })).recordset;
+    if (!todo.length) {
+        return res.status(404).json({ message: 'Todo Not Found' });
+    }
+    yield DatabaseHelper_1.DatabaseHelper.exec('UpdateTodo', { id, title, description, endDate });
+    return res.status(200).json({ message: "Todo Updated successfully..." });
+});
+exports.updateTodo = updateTodo;
+const deleteTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let id = req.params.id;
+    let todo = yield (yield DatabaseHelper_1.DatabaseHelper.exec('getTodo', { id })).recordset;
+    if (!todo.length) {
+        return res.status(404).json({ message: 'Todo Not Found' });
+    }
+    yield DatabaseHelper_1.DatabaseHelper.exec('deleteTodo', { id });
+    return res.status(200).json({ message: "Todo Deleted  successfully..." });
+});
+exports.deleteTodo = deleteTodo;
