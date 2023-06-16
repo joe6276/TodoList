@@ -7,5 +7,9 @@
     <a routerLink="addTodo"> Add a Todo</a>
   </div>
 </div>
+<!-- <ng-template appPlaceHolder></ng-template>-->
+<button (click)="ShowError()" class="bg-background"> Show Error </button> 
+
+<app-alert-box *ngIf="message" [message]="message" (close)="onClose()"></app-alert-box>
 
 <router-outlet></router-outlet>
